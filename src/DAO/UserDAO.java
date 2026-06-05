@@ -84,6 +84,27 @@ public class UserDAO {
         return null;
     }
 
+    public User getByUsername(String username) {
+        String sql = "SELECT * FROM user WHERE username = ?";
+        try (Connection conn = KoneksiDB.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, username);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    User u = new User();
+                    u.setId(rs.getInt("id_user"));
+                    u.setUsername(rs.getString("username"));
+                    u.setNama(rs.getString("nama"));
+                    u.setRole(rs.getString("role"));
+                    return u;
+                }
+            }
+        } catch (SQLException e) {
+            return null;
+        }
+        return null;
+    }
+
     public boolean addUser(User u) {
         String sql = "INSERT INTO user (username, password, nama, role) VALUES (?, ?, ?, ?)";
         try (Connection conn = KoneksiDB.getConnection();

@@ -111,6 +111,14 @@ public class LandingPage extends javax.swing.JFrame {
             }
         });
 
+        ButtonRegister = new javax.swing.JButton();
+        ButtonRegister.setBackground(new java.awt.Color(26, 50, 82));
+        ButtonRegister.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        ButtonRegister.setForeground(new java.awt.Color(255, 255, 255));
+        ButtonRegister.setText("Register");
+        ButtonRegister.setFocusPainted(false);
+        ButtonRegister.addActionListener(evt -> ButtonRegisterActionPerformed(evt));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -125,6 +133,8 @@ public class LandingPage extends javax.swing.JFrame {
                 .addComponent(NavVilla)
                 .addGap(16, 16, 16)
                 .addComponent(ButtonLogin)
+                .addGap(10, 10, 10)
+                .addComponent(ButtonRegister)
                 .addGap(23, 23, 23))
         );
         jPanel2Layout.setVerticalGroup(
@@ -135,7 +145,8 @@ public class LandingPage extends javax.swing.JFrame {
                     .addComponent(Logo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(NavBeranda)
                     .addComponent(NavVilla)
-                    .addComponent(ButtonLogin))
+                    .addComponent(ButtonLogin)
+                    .addComponent(ButtonRegister))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -340,6 +351,11 @@ public class LandingPage extends javax.swing.JFrame {
     private void ButtonLoginActionPerformed(java.awt.event.ActionEvent evt) {
         LoginAdmin dialog = new LoginAdmin(LandingPage.this);
         dialog.setVisible(true);
+        loadVillaCards();
+    }
+
+    private void ButtonRegisterActionPerformed(java.awt.event.ActionEvent evt) {
+        JOptionPane.showMessageDialog(this, "Fitur Register akan tersedia di update selanjutnya!", "Info", JOptionPane.INFORMATION_MESSAGE);
     }
 
     public static void main(String args[]) {
@@ -359,6 +375,7 @@ public class LandingPage extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton ButtonLogin;
+    private javax.swing.JButton ButtonRegister;
     private javax.swing.JLabel Logo;
     private javax.swing.JLabel NavBeranda;
     private javax.swing.JLabel NavVilla;
