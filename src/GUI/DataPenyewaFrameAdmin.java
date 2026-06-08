@@ -386,18 +386,36 @@ public class DataPenyewaFrameAdmin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Semua field harus diisi!", "Validasi", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        if (nama.length() < 3) {
+            JOptionPane.showMessageDialog(this, "Nama minimal 3 karakter!", "Validasi", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!noKtp.matches("\\d{16}")) {
+            JOptionPane.showMessageDialog(this, "No. KTP harus 16 digit angka!", "Validasi", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if (!noHp.matches("^(08|\\+62)\\d{8,12}$")) {
+            JOptionPane.showMessageDialog(this, "No. HP tidak valid! Contoh: 081234567890", "Validasi", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         if (penyewaDAO.getPenyewaByNoKtp(noKtp) != null) {
             JOptionPane.showMessageDialog(this, "No. KTP sudah terdaftar!", "Validasi", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        Penyewa p = new Penyewa(0, nama, noKtp, noHp, alamat);
-        int id = penyewaDAO.addPenyewa(p);
-        if (id != -1) {
-            JOptionPane.showMessageDialog(this, "Data penyewa berhasil ditambahkan!");
-            loadDataToTable();
-            clearForm();
+        try {
+            Penyewa p = new Penyewa(0, nama, noKtp, noHp, alamat);
+            int id = penyewaDAO.addPenyewa(p);
+            if (id != -1) {
+                JOptionPane.showMessageDialog(this, "Data penyewa berhasil ditambahkan!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
+                loadDataToTable();
+                clearForm();
+            } else {
+                JOptionPane.showMessageDialog(this, "Gagal menambahkan data penyewa!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Kesalahan: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -417,8 +435,13 @@ public class DataPenyewaFrameAdmin extends javax.swing.JFrame {
     }
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {
-        new LandingPage().setVisible(true);
-        this.dispose();
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "Apakah Anda yakin ingin logout?", "Konfirmasi Logout",
+            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (confirm == JOptionPane.YES_OPTION) {
+            new LandingPage().setVisible(true);
+            this.dispose();
+        }
     }
 
     public static void main(String args[]) {
