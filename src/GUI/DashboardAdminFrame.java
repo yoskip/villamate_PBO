@@ -36,6 +36,15 @@ public class DashboardAdminFrame extends javax.swing.JFrame {
         loadVillaCards();
         loadStatistik();
         checkRole();
+
+        javax.swing.Timer refreshTimer = new javax.swing.Timer(30000, e -> {
+            int done = transaksiDAO.autoCompleteTransactions();
+            if (done > 0) {
+                loadStatistik();
+                loadVillaCards();
+            }
+        });
+        refreshTimer.start();
     }
 
     private void checkRole() {
@@ -337,8 +346,13 @@ public class DashboardAdminFrame extends javax.swing.JFrame {
     }
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {
-        new LandingPage().setVisible(true);
-        this.dispose();
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "Apakah Anda yakin ingin logout?", "Konfirmasi Logout",
+            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (confirm == JOptionPane.YES_OPTION) {
+            new LandingPage().setVisible(true);
+            this.dispose();
+        }
     }
 
     private void loadStatistik() {

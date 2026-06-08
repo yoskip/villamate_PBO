@@ -88,12 +88,13 @@ public class KelolaVillaFrameAdmin extends javax.swing.JFrame {
     private boolean validasiFormVilla() {
         if (txtNama.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nama villa tidak boleh kosong!");
+            txtNama.requestFocus();
             return false;
         }
         try {
             int kapasitas = Integer.parseInt(txtKapasitas.getText().trim());
-            if (kapasitas <= 0) {
-                JOptionPane.showMessageDialog(this, "Kapasitas harus lebih dari 0!");
+            if (kapasitas <= 0 || kapasitas > 100) {
+                JOptionPane.showMessageDialog(this, "Kapasitas harus antara 1-100 orang!");
                 return false;
             }
         } catch (NumberFormatException e) {
@@ -104,6 +105,10 @@ public class KelolaVillaFrameAdmin extends javax.swing.JFrame {
             double harga = Double.parseDouble(txtHarga.getText().trim());
             if (harga <= 0) {
                 JOptionPane.showMessageDialog(this, "Harga harus lebih dari 0!");
+                return false;
+            }
+            if (harga > 999999999) {
+                JOptionPane.showMessageDialog(this, "Harga terlalu besar!");
                 return false;
             }
         } catch (NumberFormatException e) {
@@ -485,8 +490,13 @@ public class KelolaVillaFrameAdmin extends javax.swing.JFrame {
     }
 
     private void btnLogoutActionPerformed(java.awt.event.ActionEvent evt) {
-        new LandingPage().setVisible(true);
-        this.dispose();
+        int confirm = JOptionPane.showConfirmDialog(this,
+            "Apakah Anda yakin ingin logout?", "Konfirmasi Logout",
+            JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (confirm == JOptionPane.YES_OPTION) {
+            new LandingPage().setVisible(true);
+            this.dispose();
+        }
     }
 
     public static void main(String args[]) {
