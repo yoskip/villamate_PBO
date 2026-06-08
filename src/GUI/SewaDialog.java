@@ -123,13 +123,18 @@ public class SewaDialog extends JDialog {
             return;
         }
 
+        if (totalHari > 30) {
+            int confirm = JOptionPane.showConfirmDialog(this,
+                "Penyewaan lebih dari 30 hari (" + totalHari + " hari). Lanjutkan?",
+                "Konfirmasi", JOptionPane.YES_NO_OPTION);
+            if (confirm != JOptionPane.YES_OPTION) return;
+        }
+
         if (transaksiDAO.isTanggalKonflik(villa.getId(), checkin, checkout)) {
             JOptionPane.showMessageDialog(this, "Villa sudah dipesan orang lain di tanggal tersebut!", "Konflik Jadwal", JOptionPane.WARNING_MESSAGE);
             return;
         }
 
-        long diff = checkout.getTime() - checkin.getTime();
-        int totalHari = (int) (diff / (1000 * 60 * 60 * 24));
         double totalBiaya = totalHari * villa.getHarga();
 
         try {

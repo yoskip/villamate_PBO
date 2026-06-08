@@ -6,6 +6,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
+
+
 public class LoginAdmin extends JDialog {
 
     private UserDAO userDAO = new UserDAO();
@@ -122,15 +124,35 @@ public class LoginAdmin extends JDialog {
             return;
         }
 
-        User user = userDAO.login(username, password);
-        if (user != null) {
-            lblError.setText("");
-            dispose();
-            DashboardAdminFrame dashboard = new DashboardAdminFrame(user);
-            dashboard.setVisible(true);
-        } else {
-            lblError.setText("Username atau password salah!");
-        }
+        btnLogin.setEnabled(false);
+        btnLogin.setText("Memproses...");
+
+        SwingWorker<User, Void> worker = new SwingWorker<>() {
+            @Override
+            protected User doInBackground() {
+                return userDAO.login(username, password);
+            }
+
+            @Override
+            protected void done() {
+                btnLogin.setEnabled(true);
+                btnLogin.setText("Login");
+                try {
+                    User user = get();
+                    if (user != null) {
+                        dispose();
+                        new DashboardAdminFrame(user).setVisible(true);
+                    } else {
+                        lblError.setText("Username atau password salah!");
+                        txtPassword.setText("");
+                        txtPassword.requestFocus();
+                    }
+                } catch (Exception e) {
+                    lblError.setText("Terjadi kesalahan: " + e.getMessage());
+                }
+            }
+        };
+        worker.execute();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
