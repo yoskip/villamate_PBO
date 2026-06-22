@@ -5,7 +5,6 @@ import Model.Transaksi;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 
 public class TransaksiDAO {
 
@@ -30,8 +29,8 @@ public class TransaksiDAO {
                 t.setTanggalTransaksi(rs.getTimestamp("tanggal_transaksi"));
                 list.add(t);
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error getAllTransaksi: " + e.getMessage());
         }
         return list;
     }
@@ -51,8 +50,8 @@ public class TransaksiDAO {
             ps.setString(7, t.getStatus());
             ps.executeUpdate();
             return true;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error addTransaksi: " + e.getMessage());
             return false;
         }
     }
@@ -74,8 +73,8 @@ public class TransaksiDAO {
             ps.executeUpdate();
 
             JOptionPane.showMessageDialog(null, "Transaksi berhasil diupdate!");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error updateTransaksi: " + e.getMessage());
         }
     }
 
@@ -88,8 +87,8 @@ public class TransaksiDAO {
             ps.setInt(1, id);
             ps.executeUpdate();
             return true;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error deleteTransaksi: " + e.getMessage());
             return false;
         }
     }
@@ -104,8 +103,8 @@ public class TransaksiDAO {
             ps.setInt(2, id);
             ps.executeUpdate();
             return true;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error updateStatus: " + e.getMessage());
             return false;
         }
     }
@@ -116,8 +115,8 @@ public class TransaksiDAO {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             if (rs.next()) return rs.getDouble(1);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error getTotalPendapatan: " + e.getMessage());
         }
         return 0;
     }
@@ -128,8 +127,8 @@ public class TransaksiDAO {
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
             if (rs.next()) return rs.getInt(1);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error getJumlahTransaksiAktif: " + e.getMessage());
         }
         return 0;
     }
@@ -144,8 +143,8 @@ public class TransaksiDAO {
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) return rs.getInt(1) > 0;
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error isTanggalKonflik: " + e.getMessage());
         }
         return false;
     }
@@ -156,8 +155,8 @@ public class TransaksiDAO {
         try (Connection conn = KoneksiDB.getConnection();
              Statement stmt = conn.createStatement()) {
             updated = stmt.executeUpdate(sql);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error autoCompleteTransactions (update transaksi): " + e.getMessage());
         }
 
         String sqlVilla = "UPDATE villa v SET v.status = 'Tersedia' "
@@ -175,8 +174,8 @@ public class TransaksiDAO {
         try (Connection conn = KoneksiDB.getConnection();
              Statement stmt = conn.createStatement()) {
             stmt.executeUpdate(sqlVilla);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error autoCompleteTransactions (update villa status): " + e.getMessage());
         }
         return updated;
     }
