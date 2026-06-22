@@ -26,8 +26,8 @@ public class PenyewaDAO {
                 p.setAlamat(rs.getString("alamat"));
                 list.add(p);
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error getAllPenyewa: " + e.getMessage());
         }
         return list;
     }
@@ -49,8 +49,8 @@ public class PenyewaDAO {
                 if (rs.next()) generatedId = rs.getInt(1);
             }
 
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error addPenyewa: " + e.getMessage());
         }
         return generatedId;
     }
@@ -73,8 +73,8 @@ public class PenyewaDAO {
                     return p;
                 }
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error getPenyewaByNoKtp: " + e.getMessage());
         }
         return null;
     }
@@ -92,8 +92,8 @@ public class PenyewaDAO {
             ps.setInt(5, p.getId());
             ps.executeUpdate();
             return true;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error updatePenyewa: " + e.getMessage());
             return false;
         }
     }
@@ -106,10 +106,12 @@ public class PenyewaDAO {
 
             ps.setInt(1, id);
             ps.executeUpdate();
-
             return true;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error deletePenyewa: " + e.getMessage());
+            if (e.getErrorCode() == 1451) {
+                JOptionPane.showMessageDialog(null, "Tidak bisa hapus! Penyewa masih memiliki transaksi aktif.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
             return false;
         }
     }
