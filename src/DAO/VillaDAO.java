@@ -5,7 +5,7 @@ import Model.Villa;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
+
 
 public class VillaDAO {
 
@@ -28,8 +28,8 @@ public class VillaDAO {
                 v.setGambar(rs.getString("gambar"));
                 list.add(v);
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error VillaDAO: " + e.getMessage());
         }
         return list;
     }
@@ -49,8 +49,8 @@ public class VillaDAO {
             ps.executeUpdate();
 
             return true;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error VillaDAO: " + e.getMessage());
             return false;
         }
     }
@@ -71,8 +71,8 @@ public class VillaDAO {
             ps.executeUpdate();
 
             return true;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error VillaDAO: " + e.getMessage());
             return false;
         }
     }
@@ -88,7 +88,7 @@ public class VillaDAO {
 
             return true;
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+            System.err.println("Error VillaDAO: " + e.getMessage());
             return false;
         }
     }
@@ -103,8 +103,8 @@ public class VillaDAO {
             ps.setInt(2, id);
             ps.executeUpdate();
             return true;
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error VillaDAO: " + e.getMessage());
             return false;
         }
     }
@@ -127,8 +127,8 @@ public class VillaDAO {
                     return v;
                 }
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error: " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Error VillaDAO: " + e.getMessage());
         }
         return null;
     }
